@@ -11,5 +11,16 @@
 # Ignore .terraform directory
 .terraform/
 
+# Ignore .terraform.lock.hcl file
+.terraform.lock.hcl
+
 # Do not ignore the main.tf file
 !main.tf
+!ec2.tf
+!outputs.tf
+!vpc.tf
+!provider.tf
+!security_groups.tf
+
+
+
