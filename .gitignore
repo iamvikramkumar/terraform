@@ -1,0 +1,15 @@
+# Ignore all Terraform configuration files
+*.tf
+
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Ignore Terraform plan files
+*.tfplan
+
+# Ignore .terraform directory
+.terraform/
+
+# Do not ignore the main.tf file
+!main.tf
