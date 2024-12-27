@@ -21,6 +21,9 @@
 !vpc.tf
 !provider.tf
 !security_groups.tf
+!variables.tf
+!terraform.tfvars
+
 
 
 
