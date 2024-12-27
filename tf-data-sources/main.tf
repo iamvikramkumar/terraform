@@ -29,7 +29,8 @@ output "aws_ami" {
 # Security Group
 data "aws_security_group" "name" {
   tags = {
-    mywebserver = "http"
+    name = "my-sg"
+    ENV = "PROD"
   }
 }
 
@@ -72,9 +73,27 @@ output "name" {
   value = data.aws_region.name
 }
 
+#Subnet Id
+data "aws_subnet" "name" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.name.id]
+  }
+  tags = {
+    Name = "private-subnet"
+  }
+}
+
+output "subnet_id" {
+  value = data.aws_subnet.name.id
+}
+
 resource "aws_instance" "myserver" {
-  ami                         = data.aws_ami.name.id
+  # ami                         = data.aws_ami.name.id
+  ami = "ami-01816d07b1128cd2d"
   instance_type               = "t2.micro"
+  subnet_id = data.aws_subnet.name.id
+  security_groups = [ data.aws_security_group.name.id ]
 
   tags = {
     Name = "myserver"
