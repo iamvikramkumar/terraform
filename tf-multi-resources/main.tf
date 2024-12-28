@@ -53,16 +53,31 @@ resource "aws_subnet" "main" {
 
 # create 2 subnets and 2 ec2 instances, 1 in each subnet but ami is different, like one i ubunti other one redhat
 
-resource "aws_instance" "main" {
-    count = length(var.ec2_config)
-    ami = var.ec2_config[count.index].ami
-    instance_type = var.ec2_config[count.index].instance_type
+# resource "aws_instance" "main" {
+#     count = length(var.ec2_config)
+#     ami = var.ec2_config[count.index].ami
+#     instance_type = var.ec2_config[count.index].instance_type
 
-    subnet_id = element(aws_subnet.main[*].id, count.index % length(aws_subnet.main))
-    #0%2=0, 1%2=1
+#     subnet_id = element(aws_subnet.main[*].id, count.index % length(aws_subnet.main))
+#     #0%2=0, 1%2=1
+
+#     tags = {
+#         Name = "${local.project}-instance-${count.index}"
+#     }
+# }
+
+resource "aws_instance" "main" {
+    // use map and for each loop
+    for_each = var.ec2_map
+    # We will get each.key and each.value
+
+    ami = each.value.ami
+    instance_type = each.value.instance_type
+
+    subnet_id = element(aws_subnet.main[*].id, index(keys(var.ec2_map), each.key) % length(aws_subnet.main))
 
     tags = {
-        Name = "${local.project}-instance-${count.index}"
+        Name = "${local.project}-instance-${each.key}"
     }
 }
 
