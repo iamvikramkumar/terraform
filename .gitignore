@@ -23,7 +23,7 @@
 !security_groups.tf
 !variables.tf
 !terraform.tfvars
-!instances.tf
+!instance.tf
 !network.tf
 
 
